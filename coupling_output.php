@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="row">
     <table class="table">
         <thead>
             <tr>
@@ -21,11 +21,41 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
-            
+            <?php
                 for ($i=0; $i<count($codeLine); $i++) {
+                    
+                    $nr = 2*0;
+                    $nmcms= 2*$i; // $i to check basic structure working, need to change when real calc.
+                    $nmcmd= 3*0;
+                    $nmcrms= 3*0;
+                    $nmcrmd= 4*0;
+                    $nrmcrms= 4*0;
+                    $nrmcrmd= 5*0;
+                    $nrmcms= 3*0;
+                    $nrmcmd= 4*0;
+                    $nmrgvs= 1*0;
+                    $nmrgvd= 2*0;
+                    $nrmrgvs= 1*0;
+                    $nrmrgvd= 2*0;
+                    $ccp= $nr + $nmcms + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd + $nrmcms 
+                            + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
                     echo "<tr>
-                        <td>".$codeLine[$i]."</td>
+                        <td>". ($i+1) ."</td>
+                        <td><pre>".$codeLine[$i]."</pre></td>
+                        <td>". ($nr) ."</td>
+                        <td>". ($nmcms) ."</td>
+                        <td>". ($nmcmd) ."</td>
+                        <td>". ($nmcrms) ."</td>
+                        <td>". ($nmcrmd) ."</td>
+                        <td>". ($nrmcrms) ."</td>
+                        <td>". ($nrmcrmd) ."</td>
+                        <td>". ($nrmcms) ."</td>
+                        <td>". ($nrmcmd) ."</td>
+                        <td>". ($nmrgvs) ."</td>
+                        <td>". ($nmrgvd) ."</td>
+                        <td>". ($nrmrgvs) ."</td>
+                        <td>". ($nrmrgvd) ."</td>
+                        <td>". ($ccp) ."</td>
                     </tr>";
                 }
             
