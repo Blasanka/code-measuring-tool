@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>CDE IT Code complexity measuring tool</title>
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="assets/css/styles.css" />
-	</head>
-	<body>
+<?php include("includes/header.php"); ?>
 		<?php $codeLine = array(); ?>
 		<div class="container">
 			<div class="col-12">
@@ -54,10 +47,10 @@
 				<div class="row row-margin">
 					<div class="col-10" id="output"></div>
 					<div class="col-2">
-						<a href="#" class="btn btn-primary">Change Weights</a>
+						<a href="/code-measuring-tool/edit.php" class="btn btn-primary">Change Weights</a>
 					</div>
 				</div>
-				<?php include("coupling_output.php") ?>
+				<?php include("includes/coupling_output.php") ?>
 			</div>
 			<script type="text/javascript">
 				document.getElementById("output-table").style.display = "none";
@@ -68,5 +61,4 @@
 				}
 			</script>	
 		</div>
-	</body>
-</html>
+<?php include("includes/footer.php"); ?>
