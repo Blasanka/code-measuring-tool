@@ -21,6 +21,22 @@
 				<div class="row row-margin">
 					<textarea rows="14" class="form-control" id="codeArea">
 						<?php
+							
+							// setting coupling weights
+							setcookie("wr", 2);
+							setcookie("wmcms", 2);
+							setcookie("wmcmd", 3);
+							setcookie("wmcrms", 3);
+							setcookie("wmcrmd", 4);
+							setcookie("wrmcrms", 4);
+							setcookie("wrmcrmd", 5);
+							setcookie("wrmcms", 3);
+							setcookie("wrmcmd", 4);
+							setcookie("wmrgvs", 1);
+							setcookie("wmrgvd", 2);
+							setcookie("wrmrgvs", 1);
+							setcookie("wrmrgvd", 2);
+
 							if (isset($_FILES['file'])) {
 								$counter = 0;
 								$fp = fopen($_FILES['file']['tmp_name'], 'rb');

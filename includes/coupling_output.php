@@ -1,4 +1,5 @@
 <div class="row">
+    <h3>Coupling</h3>
     <table class="table">
         <thead>
             <tr>
@@ -22,21 +23,39 @@
         </thead>
         <tbody>
             <?php
+            
+                $file = "config.xml";
+                $xml= simplexml_load_file($file);
+                
+                $wr = $xml->wr; 
+                $wmcms = $xml->wmcms;
+                $wmcmd = $xml->wmcmd;
+                $wmcrms = $xml->wmcrms;
+                $wmcrmd = $xml->wmcrmd;
+                $wrmcrms = $xml->wrmcrms;
+                $wrmcrmd = $xml->wrmcrmd;
+                $wrmcms = $xml->wrmcms;
+                $wrmcmd = $xml->wrmcmd;
+                $wmrgvs = $xml->wmrgvs;
+                $wmrgvd = $xml->wmrgvd;
+                $wrmrgvs = $xml->wrmrgvs;
+                $wrmrgvd = $xml->wrmrgvd;
+                
                 for ($i=0; $i<count($codeLine); $i++) {
                     
-                    $nr = 2*0;
-                    $nmcms= 2*$i; // $i to check basic structure working, need to change when real calc.
-                    $nmcmd= 3*0;
-                    $nmcrms= 3*0;
-                    $nmcrmd= 4*0;
-                    $nrmcrms= 4*0;
-                    $nrmcrmd= 5*0;
-                    $nrmcms= 3*0;
-                    $nrmcmd= 4*0;
-                    $nmrgvs= 1*0;
-                    $nmrgvd= 2*0;
-                    $nrmrgvs= 1*0;
-                    $nrmrgvd= 2*0;
+                    $nr = $wr*0;
+                    $nmcms= $wmcms*$i; // $i to check basic structure working, need to change when real calc.
+                    $nmcmd= $wmcmd*0;
+                    $nmcrms= $wmcrms*0;
+                    $nmcrmd= $wmcrmd*0;
+                    $nrmcrms= $wrmcrms*0;
+                    $nrmcrmd= $wrmcrmd*0;
+                    $nrmcms= $wrmcms*0;
+                    $nrmcmd= $wrmcmd*0;
+                    $nmrgvs= $wmrgvs*0;
+                    $nmrgvd= $wmrgvd*0;
+                    $nrmrgvs= $wrmrgvs*0;
+                    $nrmrgvd= $wrmrgvd*0;
                     $ccp= $nr + $nmcms + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd + $nrmcms 
                             + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
                     echo "<tr>
