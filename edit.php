@@ -3,7 +3,7 @@
     <form action="edit.php" method="post">
         <div class="row">
             <div class="col-11">
-                <a href="/code-measuring-tool/" class="btn btn-primary">Go Back</a>
+                <button onClick="window.history.go(-1); return false;" class="btn btn-primary">Go Back</button>
             </div>
             <div class="col-1">
                 <input type="submit" value="Save" name="submit" class="btn btn-success" />

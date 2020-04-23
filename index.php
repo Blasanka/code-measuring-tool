@@ -11,7 +11,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-5"><label for="file">Pick your program:</label></div>
-								<div class="col-4">
+								<div class="col-6">
 									<input type="file" class="form-control-file" id="file" name="file" onchange="form.submit()" />
 								</div>
 							</div>
@@ -21,22 +21,6 @@
 				<div class="row row-margin">
 					<textarea rows="14" class="form-control" id="codeArea">
 						<?php
-							
-							// setting coupling weights
-							setcookie("wr", 2);
-							setcookie("wmcms", 2);
-							setcookie("wmcmd", 3);
-							setcookie("wmcrms", 3);
-							setcookie("wmcrmd", 4);
-							setcookie("wrmcrms", 4);
-							setcookie("wrmcrmd", 5);
-							setcookie("wrmcms", 3);
-							setcookie("wrmcmd", 4);
-							setcookie("wmrgvs", 1);
-							setcookie("wmrgvd", 2);
-							setcookie("wrmrgvs", 1);
-							setcookie("wrmrgvd", 2);
-
 							if (isset($_FILES['file'])) {
 								$counter = 0;
 								$fp = fopen($_FILES['file']['tmp_name'], 'rb');
@@ -61,18 +45,20 @@
 			</div>
 			<div class="col-12" id="output-table">
 				<div class="row row-margin">
-					<div class="col-10" id="output"></div>
-					<div class="col-2">
+					<div class="col-11" id="output"></div>
+					<div class="col-1">
 						<a href="/code-measuring-tool/edit.php" class="btn btn-primary">Change Weights</a>
 					</div>
 				</div>
 				<?php include("includes/coupling_output.php") ?>
+				<br />
+				<?php include("includes/all_factors_output.php") ?>
 			</div>
 			<script type="text/javascript">
 				document.getElementById("output-table").style.display = "none";
 				function analyzeProgram() {
 					var codeArea = document.getElementById("codeArea").value;
-					document.getElementById("output").innerHTML = "Analyzed code lines length is: " + codeArea.length;
+					document.getElementById("output").innerHTML = "Analyzed code lines count is: " + codeArea.length;
 					document.getElementById("output-table").style.display = "block";
 				}
 			</script>	
