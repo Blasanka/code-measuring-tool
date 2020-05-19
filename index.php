@@ -50,6 +50,8 @@
 						<a href="/code-measuring-tool/edit.php" class="btn btn-primary">Change Weights</a>
 					</div>
 				</div>
+                <?php include("includes/svm_output.php") ?>
+                <br />
 				<?php include("includes/coupling_output.php") ?>
 				<br />
 				<?php include("includes/all_factors_output.php") ?>
