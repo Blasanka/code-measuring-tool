@@ -159,6 +159,72 @@
                 ?>
             </tbody>
         </table>
+
+        <!--controlstructure-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Control Structure Type</th>
+                    <th scope="col">Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                        // $wr = 2;
+                        // $wmcmd= 3;
+                        // $wmcrms= 3;
+                        // $wmcrmd= 4;
+                        
+
+                        $file = "configcontrol.xml";
+                        $xml= simplexml_load_file($file);
+                        if(isset($_POST)) {
+                            // unset($xml->config);
+                            if(isset($_POST['wr'])) {
+                                // setcookie("wr", $_POST['wr']);
+                                $xml->wr = $_POST['wr'];
+                            } 
+                            if(isset($_POST['wmcms'])) {
+                                // setcookie("wmcms", $_POST['wmcms']);
+                                $xml->wmcms = $_POST['wmcms'];
+                            } 
+                            if(isset($_POST['wmcmd'])) {
+                                // setcookie("wmcmd", $_POST['wmcmd']);
+                                $xml->wmcmd = $_POST['wmcmd'];
+                            } 
+                            if(isset($_POST['wmcrms'])) {
+                                // setcookie("wmcrms", $_POST['wmcrms']);
+                                $xml->wmcrms = $_POST['wmcrms'];
+                            } 
+                            
+                            file_put_contents($file, $xml->asXML());
+                        }
+
+                        $wr = $xml->wr; 
+                        $wmcms = $xml->wmcms;
+                        $wmcmd = $xml->wmcmd;
+                        $wmcrms = $xml->wmcrms;
+                       
+
+                        echo "<tr>
+                            <td>A recursivecall (Refer to Ex1in fig. 1)</td>
+                            <td><input type='text' value=". $wr ."  name='wr' /></td>
+                        </tr>
+                        <tr>
+                            <td>A regular method calling another regular method in the same file</td>
+                            <td><input type='text' value=". $wmcms ."  name='wmcms' /></td>
+                        </tr>
+                        <tr>
+                            <td>A regular method calling another regular method in a different file</td>
+                            <td><input type='text' value=". $wmcmd ."  name='wmcmd' /></td>
+                        </tr>
+                        <tr>
+                            <td>A regular method calling another regular method in a different file</td>
+                            <td><input type='text' value=". $wmcrms ." name='wmcrms' /></td>
+                        </tr>";
+                ?>
+            </tbody>
+        </table>
     </form>
 </div>
 <?php include("includes/footer.php"); ?>

@@ -41,7 +41,6 @@ class CouplingRules {
     }
 
     function findRecursiveMethods($line) {
-        
         $wkw = 0;
 
         if ((strpos($line, 'int') !== false) && (strpos($line, 'double') !== false)) {
@@ -108,8 +107,8 @@ class CouplingRules {
 
                 if (preg_match("/\(\)\./", $line, $matches) === 1) {
                     $appearedCount += 1;
-                    print_r($matches);
-                    echo "<br/>";
+                    // print_r($matches);
+                    // echo "<br/>";
                 }
             }
             return $appearedCount;
