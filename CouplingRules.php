@@ -42,6 +42,16 @@ class CouplingRules {
 
     function findRecursiveMethods($line) {
         
+        $wkw = 0;
+
+        if ((strpos($line, 'int') !== false) && (strpos($line, 'double') !== false)) {
+            $wkw += 1;
+        }
+
+        if (strpos($line, 'double') !== false) {
+            $wkw += 1;
+        }
+
         if (strlen($line) > 0) {
             if ((strpos($line, '(') !== false) && (strpos($line, ')') !== false)) {
                 $this->oneLineParts = explode(' ', $line);
@@ -67,38 +77,41 @@ class CouplingRules {
     }
 
     function getRecursiveCallCount() {
-        return 0;//count(array_intersect($this->identifiedMethods, $this->identifiedMethodsInvokes ));
-        // foreach ($this->identifiedMethods as $method) {
-            
-        // }
-        // return array_sum(array_intersect($this->identifiedMethods, $this->identifiedMethodsInvokes));
+        return 0;
     }
 
     function findARegularMethodCall($line) {
         $appearedCount = 0;
 
-        if (strlen($line) > 0) {
-            if (strpos($line, "(") !== false && strpos($line, ");") !== false) {
-                $appearedCount += 1;
-            }
+        $strlen = strlen($line);
+        if ($strlen > 0) {
 
-            if (!$this->checkBraces($line)) {
-                $this->notTerminatedLines .= $line;
-                if (preg_match("[(|);]", $this->notTerminatedLines) === 1) {
-                    // print_r($this->notTerminatedLines);
-                    $this->notTerminatedLines = "";
-                    $appearedCount += 1;
-                }
-            }
-
-            if (preg_match("[\),]", $line) === 1 && count($this->opendBracesInOneLine) == 2 && count($this->closedBracesInOneLine) == 1) {
+            if (preg_match("/[(?]\w[)?,*]^(;$)/", $line,  $matches) === 1) {
                 $appearedCount += 1;
             }
             
-            if (preg_match("[\)\.]", $line) === 1 && count($this->opendBracesInOneLine) > 1) {
-                $appearedCount += 1;
-            }
+            if (preg_match('/void.+/', $line) === 0) {
+                if (preg_match("/([a-zA-Z_]+)([\(\)])/", $line, $matches) === 1) {
+                    // $appearedCount += 1;
+                    foreach ($matches as $key => $val) {
+                        if (preg_match("/\w+\(+/", $val) === 1) {
+                            $appearedCount += 1;
+                            // echo $val;
+                            // echo "<br/>";
+                        }
+                    }
+                }
 
+                if (preg_match("/\(\),/", $line, $matches) === 1) {
+                    $appearedCount += 1;
+                }
+
+                if (preg_match("/\(\)\./", $line, $matches) === 1) {
+                    $appearedCount += 1;
+                    print_r($matches);
+                    echo "<br/>";
+                }
+            }
             return $appearedCount;
         }
     }

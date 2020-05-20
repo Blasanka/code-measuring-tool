@@ -67,7 +67,7 @@
                         // $rules->displayArr();
                         $nr = $wr*$rules->getRecursiveCallCount();
 
-                        $nmcms= $wmcms*$rules->findARegularMethodCall($codeLine[$i]);
+                        $nmcms= $rules->findARegularMethodCall($codeLine[$i]);//$wmcms*
                         $nmcmd = $wmcmd*0;
                         $nmcrms= $wmcrms*0;
                         $nmcrmd= $wmcrmd*0;
@@ -79,8 +79,8 @@
                         $nmrgvd= $wmrgvd*0;
                         $nrmrgvs= $wrmrgvs*0;
                         $nrmrgvd= $wrmrgvd*0;
-                        $ccp= $nr + $nmcms + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd + $nrmcms 
-                                + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
+                        $ccp= $nr + ($wmcms*$nmcms) + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd 
+                            + $nrmcms + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
                         echo "<tr>
                             <td>". ($i+1) ."</td>
                             <td><pre>".$codeLine[$i]."</pre></td>
