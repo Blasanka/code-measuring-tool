@@ -51,6 +51,8 @@
 					</div>
 				</div>
 				
+                <?php include("includes/svm_output.php") ?>
+                <br />
 				<?php include("includes/controlstructure.php") ?>
 				<br />
 				<?php include("includes/inheritance.php") ?>
@@ -58,6 +60,7 @@
 				<?php include("includes/coupling_output.php") ?>
 				<br />
 				<?php include("includes/all_factors_output.php") ?>
+
 			</div>
 			<script type="text/javascript">
 				document.getElementById("output-table").style.display = "none";
