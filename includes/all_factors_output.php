@@ -20,36 +20,36 @@
                 $file = "config.xml";
                 $xml= simplexml_load_file($file);
                 
+                $totalFactorsFile = "total_factors.xml";
+                $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+
                 $wr = $xml->wr; 
                 $wmcms = $xml->wmcms;
                 $wmcmd = $xml->wmcmd;
                 $wmcrms = $xml->wmcrms;
                 $wmcrmd = $xml->wmcrmd;
                 $wrmcrms = $xml->wrmcrms;
-                $wrmcrmd = $xml->wrmcrmd;
                 $ccp = 0;
                 
                 for ($i=0; $i<count($codeLine); $i++) {
                     
-                    $nr = $wr*0;
-                    $nmcms= $wmcms*$i; // $i to check basic structure working, need to change when real calc.
-                    $nmcmd= $wmcmd*0;
-                    $nmcrms= $wmcrms*0;
-                    $nmcrmd= $wmcrmd*0;
-                    $nrmcrms= $wrmcrms*0;
-                    $nrmcrmd= $wrmcrmd*0;
-                    $ccp= $nr + $nmcms + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd + $nrmcms 
-                            + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
+                    $cs = $wr*0;
+                    $cv= $wmcms*$i; // $i to check basic structure working, need to change when real calc.
+                    $cm = $wmcmd*0;
+                    $ci= $wmcrms*0;
+                    $ccp = $wmcrmd*0;
+                    $ccs = $totalFactorsXml->coupling->ccs;
+                    $tcps = $cs + $cv + $cm + $ci + $ccp + $ccs;
                     echo "<tr>
                         <td>". ($i+1) ."</td>
                         <td><pre>".$codeLine[$i]."</pre></td>
-                        <td>". ($nr) ."</td>
-                        <td>". ($nmcms) ."</td>
-                        <td>". ($nmcmd) ."</td>
-                        <td>". ($nmcrms) ."</td>
-                        <td>". ($nmcrmd) ."</td>
-                        <td>". ($nrmcrms) ."</td>
-                        <td>". ($nrmcrmd) ."</td>
+                        <td>". ($cs) ."</td>
+                        <td>". ($cv) ."</td>
+                        <td>". ($cm) ."</td>
+                        <td>". ($ci) ."</td>
+                        <td>". ($ccp) ."</td>
+                        <td>". ($ccs) ."</td>
+                        <td>". ($tcps) ."</td>
                     </tr>";
                 }
             

@@ -26,6 +26,7 @@ class CouplingRules {
     private $opendBracesInOneLine;
     private $closedBracesInOneLine;
     private $commasInOneLine;
+    private $globalVariables;
 
     public function __construct() {
         $this->identifiedMethods = array();
@@ -38,46 +39,25 @@ class CouplingRules {
         $this->opendBracesInOneLine = array();
         $this->closedBracesInOneLine = array();
         $this->commasInOneLine = array();
+        $this->globalVariables = array();
     }
 
     function findRecursiveMethods($line) {
-        
-        $wkw = 0;
+        $appearedCount = 0;
 
-        if ((strpos($line, 'int') !== false) && (strpos($line, 'double') !== false)) {
-            $wkw += 1;
-        }
+        $lookup = preg_match("/([a-zA-Z_]+)([\(\)])/", $line, $matches);
+        if (count($matches) > 1) {
 
-        if (strpos($line, 'double') !== false) {
-            $wkw += 1;
-        }
-
-        if (strlen($line) > 0) {
-            if ((strpos($line, '(') !== false) && (strpos($line, ')') !== false)) {
-                $this->oneLineParts = explode(' ', $line);
-                if (strpos($line, ';') === false) {
-                    if( in_array("void", $this->oneLineParts ) ) {
-                        $methodName = substr_replace($this->oneLineParts[3], '', strpos($this->oneLineParts[3], '('), strlen($this->oneLineParts[3]));
-                        array_push($this->identifiedMethods, $methodName);
-                    } else if (count($this->oneLineParts) >= 2 && (strpos($line, '{') !== false)) {
-                        $methodName = substr_replace($this->oneLineParts[3], '', strpos($this->oneLineParts[3], '('), strlen($this->oneLineParts[3]));
-                        array_push($this->identifiedMethods, $methodName);
-                    }
-                } else {
-                    if (strpos($line, '=') !== false) {
-                        $methodName = substr_replace($this->oneLineParts[3], '', strpos($this->oneLineParts[3], '('), strlen($this->oneLineParts[3]));
-                        array_push($this->identifiedMethodsInvokes, $methodName);
-                    } else {
-                        $methodName = substr_replace($this->oneLineParts[0], '', strpos($this->oneLineParts[0], '('), strlen($this->oneLineParts[0]));
-                        array_push($this->identifiedMethodsInvokes, $methodName);
-                    }
+            if (preg_match('/(void|public|private|String).+/', $line) === 0) {
+                if (isset($matches) && in_array($matches[1], $this->identifiedMethods)) {
+                    $this->identifiedMethods = [];
+                    $appearedCount += 1;
                 }
             }
+            array_push($this->identifiedMethods, $matches[1]);
         }
-    }
 
-    function getRecursiveCallCount() {
-        return 0;
+        return $appearedCount;
     }
 
     function findARegularMethodCall($line) {
@@ -90,7 +70,7 @@ class CouplingRules {
                 $appearedCount += 1;
             }
             
-            if (preg_match('/void.+/', $line) === 0) {
+            if (preg_match('/(void|public|private|String).+/', $line) === 0) {
                 if (preg_match("/([a-zA-Z_]+)([\(\)])/", $line, $matches) === 1) {
                     // $appearedCount += 1;
                     foreach ($matches as $key => $val) {
@@ -108,12 +88,22 @@ class CouplingRules {
 
                 if (preg_match("/\(\)\./", $line, $matches) === 1) {
                     $appearedCount += 1;
-                    print_r($matches);
-                    echo "<br/>";
+                    // print_r($matches);
+                    // echo "<br/>";
                 }
             }
             return $appearedCount;
         }
+    }
+
+    function globalVariableCount($line) {
+        $appearedCount = 0;
+        if (strpos('{', $line) === false && strpos('}', $line) === false 
+            && preg_match("/;$/", $line, $matches) === 1) {
+            array_push($this->globalVariables, $matches[count($matches)-1]);
+            $appearedCount += 1;
+        }
+        return $appearedCount;
     }
 
     function checkBraces($str) {
@@ -134,6 +124,27 @@ class CouplingRules {
             
             if ($c == ",") {
                 array_push($this->commasInOneLine, $c);
+            }
+
+            if ($openbraces < 0)
+                return false;
+        }
+
+        return $openbraces == 0;
+    }
+
+    function checkCurlyBraces($str) {
+        $strlen = strlen($str);
+        $openbraces = 0;
+
+        for ($i = 0; $i < $strlen; $i++) {
+            $c = $str[$i];
+            if ($c == "{") {
+                $openbraces++;
+            }
+
+            if ($c == "}") {
+                $openbraces--;
             }
 
             if ($openbraces < 0)

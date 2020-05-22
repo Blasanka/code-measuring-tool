@@ -62,5 +62,5 @@
 					document.getElementById("output-table").style.display = "block";
 				}
 			</script>	
-		</div>
+		</div>		
 <?php include("includes/footer.php"); ?>

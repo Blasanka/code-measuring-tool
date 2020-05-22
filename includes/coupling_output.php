@@ -1,5 +1,14 @@
 <div class="row">
     <h3>Displaying the complexity of a program due to coupling</h3>
+    <div class="col-md-2">
+        <form action="generate_pdf.php" method="POST">
+            <?php foreach ($codeLine as $line) : ?>
+                <input type="hidden" name="codeLine[]" value="<?= htmlspecialchars($line); ?>" />
+            <?php endforeach; ?>
+            <input type="submit" class="btn btn-info" name="generate" id="generate" 
+                value="Generate PDF" />
+        </form>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -63,10 +72,8 @@
                     if (strpos($codeLine[$i], "//") === false && strpos($codeLine[$i], "/*") === false 
                         && strpos($codeLine[$i], "#") === false) {
                     
-                        $rules->findRecursiveMethods($codeLine[$i]);
                         // $rules->displayArr();
-                        $nr = $wr*$rules->getRecursiveCallCount();
-
+                        $nr = $rules->findRecursiveMethods($codeLine[$i]);
                         $nmcms= $rules->findARegularMethodCall($codeLine[$i]);//$wmcms*
                         $nmcmd = $wmcmd*0;
                         $nmcrms= $wmcrms*0;
@@ -75,12 +82,21 @@
                         $nrmcrmd= $wrmcrmd*0;
                         $nrmcms= $wrmcms*0;
                         $nrmcmd= $wrmcmd*0;
-                        $nmrgvs= $wmrgvs*0;
+                        $nmrgvs= $rules->globalVariableCount($line);
                         $nmrgvd= $wmrgvd*0;
                         $nrmrgvs= $wrmrgvs*0;
                         $nrmrgvd= $wrmrgvd*0;
-                        $ccp= $nr + ($wmcms*$nmcms) + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd 
-                            + $nrmcms + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
+                        $ccp= ($wr*$nr) + ($wmcms*$nmcms) + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd 
+                            + $nrmcms + $nrmcmd + ($wmrgvs * $nmrgvs) + $nmrgvd + $nrmrgvs + $nrmrgvd;
+                        
+                        if(isset($ccp)) {
+                            // write to a xml file to display in all factors table
+                            $totalFactorsFile = "total_factors.xml";
+                            $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+                            $totalFactorsXml->coupling->ccs = $ccp;
+                            file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
+                        }
+
                         echo "<tr>
                             <td>". ($i+1) ."</td>
                             <td><pre>".$codeLine[$i]."</pre></td>
@@ -101,7 +117,6 @@
                         </tr>";
                     }
                 }
-            
             ?>
         </tbody>
     </table>
