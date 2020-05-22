@@ -45,29 +45,7 @@
 									$filename = $_FILES["zip_file"]["name"];
 									$source = $_FILES["zip_file"]["tmp_name"];
 									$type = $_FILES["zip_file"]["type"];
-
-									$name = explode(".", $filename);
-									$accepted_types = array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
-									foreach($accepted_types as $mime_type) {
-										if($mime_type == $type) {
-											$okay = true;
-											break;
-										} 
-									}
-
-									$continue = strtolower($name[1]) == 'zip' ? true : false;
-									if(!$continue) {
-										$message = "The file you are trying to upload is not a .zip file. Please try again.";
-									}
-
-									/* PHP current path */
-									$path = dirname(__FILE__).'/';
-									$filenoext = basename ($filename, '.zip');
-									$filenoext = basename ($filenoext, '.ZIP');
-
-									$targetdir = $path . $filenoext;
-									$targetzip = $path . $filename;
-
+									
 									// $zip = new ZipArchive();
 									// $x = $zip->open($targetzip);
 									$zip = zip_open($source);
