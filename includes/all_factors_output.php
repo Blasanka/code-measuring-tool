@@ -23,16 +23,17 @@
                 $totalFactorsFile = "total_factors.xml";
                 $totalFactorsXml= simplexml_load_file($totalFactorsFile);
 
-                $cs = 0;
-                $cv= 0;
-                $cm = 0;
-                $ci= 0;
-                $ccs = 0;
+                $cs = $totalFactorsXml->cs;
+                $cv= $totalFactorsXml->cv;
+                $cm = $totalFactorsXml->cm;
+                $ci= $totalFactorsXml->ci;
+                $ccs = $totalFactorsXml->ccs;
                 $ccp = $totalFactorsXml->ccp;
                 $tcps = $cs + $cv + $cm + $ci + $ccp + $ccs;
+                
+                $finalComplexity = 0;
 
                 for ($i=0; $i<count($codeLine); $i++) {
-                    
                     echo "<tr>
                         <td>". ($i+1) ."</td>
                         <td><pre>".$codeLine[$i]."</pre></td>
@@ -44,6 +45,7 @@
                         <td>". ($ccs) ."</td>
                         <td>". ($tcps) ."</td>
                     </tr>";
+                    $finalComplexity += $tcps;
                 }
                 
                 echo "<tr>
@@ -55,7 +57,7 @@
                     <td></td>
                     <td></td>
                     <td><b>Total</b></td>
-                    <td><b>". ($tcps) ."</b></td>
+                    <td><b>". ($finalComplexity) ."</b></td>
                 </tr>";
             
             ?>

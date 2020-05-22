@@ -20,6 +20,11 @@
 
         $file = "config1.xml";
         $xml= simplexml_load_file($file);
+        // write to a xml file to display in all factors table
+        $totalFactorsFile = "total_factors.xml";
+        $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+        $totalFactorsXml->cs = 0;
+        file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
 
         $wkw = $xml->wkw;
         $wid = $xml->wid;
@@ -289,6 +294,7 @@
                 $Stringl = $wsl*$Nsl;
 
                 $ccp = ($wkw * $Nkw) + ($Nid * $wid) + ($wop * $Nop) + ($wnv * $Nnv) + ($wsl * $Nsl);
+                $totalFactorsXml->cs += $ccp;
 
                 echo "<tr>
                             <td>". ($i+1) ."</td>
@@ -330,6 +336,8 @@
 
         $file = "config2.xml";
         $xml= simplexml_load_file($file);
+        $totalFactorsXml->cv = 0;
+        file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
 
         $wgv = $xml->wgv;
         $wlv = $xml->wlv;
@@ -630,6 +638,7 @@
                 $tot= ($Wvs * $wgv) + $local;
 
                 $ccp= $tot * (($Nspdtv*$wpdtv) + ($Ncdtv*$wcdtv));
+                $totalFactorsXml->cv += $ccp;
                 echo "<tr>
                             <td>". ($i+1) ."</td>
                             <td><pre>".$codeLine[$i]."</pre></td>
@@ -671,6 +680,8 @@
 
         $file = "config3.xml";
         $xml= simplexml_load_file($file);
+        $totalFactorsXml->cm = 0;
+        file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
 
         $wprt = $xml->wprt;
         $wcrt = $xml->wcrt;
@@ -849,6 +860,7 @@
 
 
                 $Cm = $tot + ( $Npdtp * $wpdtp) + ($Ncdtp* $wcdtp);
+                $totalFactorsXml->cm += $Cm;
 
                 echo "<tr>
                             <td>". ($i+1) ."</td>
@@ -861,6 +873,7 @@
                         </tr>";
             }
         }
+        file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
 
         ?>
         </tbody>

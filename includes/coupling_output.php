@@ -39,6 +39,7 @@
                 $totalFactorsFile = "total_factors.xml";
                 $totalFactorsXml= simplexml_load_file($totalFactorsFile);
                 $totalFactorsXml->ccp = 0;
+                file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
 
                 $wr = $xml->wr; 
                 $wmcms = $xml->wmcms;

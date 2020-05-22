@@ -41,4 +41,5 @@ As an added feature user can generate a pdf of the code measured factor table.
 
 - Coupling calculation could not complete because of the workload, time limitation and etc (power failures regulary).
 - Generate PDF only done for Coupling
-- All Factors measures are not well managed and accuracy is low.
+- All Factors measures table are not well managed and accuracy is low.
+- Sometimes need page refresh when in deployed site.

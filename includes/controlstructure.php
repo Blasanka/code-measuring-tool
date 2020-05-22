@@ -22,6 +22,7 @@
                 $totalFactorsFile = "total_factors.xml";
                 $totalFactorsXml= simplexml_load_file($totalFactorsFile);
                 $totalFactorsXml->ccs = 0;
+                file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
                  
                 $ie = $xml->ie;
                 $fw = $xml->fw;
@@ -72,7 +73,7 @@
                     }
 
                     $ccs = ($wts * $nc);
-                    $totalFactorsXml->ccs = $ccs;
+                    $totalFactorsXml->ccs += $ccs;
                    
 
                     echo "<tr>
@@ -87,6 +88,7 @@
                             </tr>";
 
                 }
+                file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
             
             ?>
         </tbody>
