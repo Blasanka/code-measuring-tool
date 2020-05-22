@@ -39,13 +39,11 @@
             $Nnv = 0;
             $Nsl = 0;
 
-            // git add .
-            // git commit -m "message"
+            $check = 0;
 
-            // git push -u origin SVM
 
             if (strpos($codeLine[$i], "//") === false && strpos($codeLine[$i], "/*") === false
-                && strpos($codeLine[$i], "#") === false) {
+                && strpos($codeLine[$i], "#") === false ) {
 
                 if (strpos($codeLine[$i], "class") !== false) {
                     $Nkw += 1;
@@ -96,7 +94,6 @@
                 }
 
 
-
                 //identifires
 
                 //identifires-varibales
@@ -143,6 +140,9 @@
                      $Nid += 1;
                  } */
 
+                if (strpos($codeLine[$i], '().') !== false) {
+                    $Nop += 1;
+                }
 
 
                 if (strpos($codeLine[$i], '),') !== false) {
@@ -191,6 +191,12 @@
                     $Nid += 1;
                 }
 
+
+
+                if (strpos($codeLine[$i], '"') !== false && strpos($codeLine[$i], '.') !== false  && strpos($codeLine[$i], '.') !== false && strpos($codeLine[$i], '.') !== false  && strpos($codeLine[$i], '.') !== false && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+
                 $strlen = strlen($codeLine[$i]);
                 for ($j = 0; $j < $strlen; $j++) {
                     $c = $codeLine[$i][$j];
@@ -204,10 +210,6 @@
                 }
 
 
-                //objects
-
-
-                //identifires
 
                 //number of operators
                 $strlen = strlen($codeLine[$i]);
@@ -224,21 +226,13 @@
                         $Nop += 1;
                     }
                 }
-                /*
-                 $strlen = strlen($codeLine[$i]);
-                 for ($x = 0; $x < $strlen; $x++) {
-                     $string = $codeLine[$i][$x];
 
-                     if ($string == '"') {
-                         $Nsl = 1;
-                     }
-
-             }
-                 */
                 //numercale values
                 $strlen = strlen($codeLine[$i]);
                 for ($z = 0; $z < $strlen; $z++) {
                     $num = $codeLine[$i][$z];
+
+                    //  if ( is_numeric($num) )
 
                     if ($num == '1' || $num == '2' || $num == '3' || $num == '4' || $num == '5'
                         || $num == '6' || $num == '7'
@@ -248,24 +242,61 @@
 
                 }
 
+                //
+
+                if (strpos($codeLine[$i], '"') !== false  && strpos($codeLine[$i], '/') !== false  && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+
+                if (strpos($codeLine[$i], '"') !== false && strpos($codeLine[$i], '.') !== false && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+
+                if (strpos($codeLine[$i], '"') !== false && strpos($codeLine[$i], '-') !== false && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+
+                if (strpos($codeLine[$i], '"') !== false && strpos($codeLine[$i], '!') !== false && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+
+                if (strpos($codeLine[$i], '"') !== false && strpos($codeLine[$i], '.') !== false  && strpos($codeLine[$i], '.') !== false && strpos($codeLine[$i], '"') !== false) {
+                    $Nop -= 1;
+                }
+                //
+
+
                 if($Nnv == 6){
 
                     $Nnv =  $Nnv / 2 - 1;
                 }
-                // $Nid = $wid*$rules->findARegularMethodCall($codeLine[$i]);
+
+                if($Nop == -1){
+
+                    $Nop =  0;
+                }
+
+
+                //ignoring import
+                if (strpos($codeLine[$i], "import") !== false ) {
+                    $Nop = 0;
+
+                }
 
                 $arithmatic = $wop*$Nop;
-                $Numericle = $wnv*$Nnv;
+                //$Numericle = $wnv*$Nnv;
                 // $Nsl = $wsl*0;
                 $Stringl = $wsl*$Nsl;
-                $ccp = $Nkw + ($Nid * $wid) + $Nop + $Nnv + $Nsl;
+
+                $ccp = ($wkw * $Nkw) + ($Nid * $wid) + ($wop * $Nop) + ($wnv * $Nnv) + ($wsl * $Nsl);
+
                 echo "<tr>
                             <td>". ($i+1) ."</td>
                             <td><pre>".$codeLine[$i]."</pre></td>
                             <td>". ($Nkw) ."</td>
                             <td>". ($Nid) ."</td>
                             <td>". ($arithmatic) ."</td>
-                            <td>". $Numericle ."</td>
+                            <td>". $Nnv ."</td>
                             <td>". $Stringl ."</td>
                             <td>". ($ccp) ."</td>
                         </tr>";
@@ -322,11 +353,7 @@
             if (strpos($codeLine[$i], "//") === false && strpos($codeLine[$i], "/*") === false
                 && strpos($codeLine[$i], "#") === false) {
 
-                //$rules->findRecursiveMethods($codeLine[$i]);
-                // $rules->displayArr();
-                //$Wvs = $wgv*$rules->getRecursiveCallCount();
 
-                //$Nspdtv= $wlv*$rules->findARegularMethodCall($codeLine[$i]);
 
                 //number of premtive data types
                 //int
@@ -480,119 +507,116 @@
                     $Ncdtv += 1;
                 }
 
-                //global-int
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'int') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - int
+                //local
 
                 if (strpos($codeLine[$i], "int") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - Dimension
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'Dimension') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - Dimension
+                //local
 
                 if (strpos($codeLine[$i], "Dimension") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - long
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'long') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - long
+                //local
 
                 if (strpos($codeLine[$i], "long") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - double
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'double') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - double
+                //local
 
                 if (strpos($codeLine[$i], "double") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - float
-
+                //global
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'float') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - float
+                //local
 
                 if (strpos($codeLine[$i], "float") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-
-                //global - boolean
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'boolean') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - boolean
+                //local
 
                 if (strpos($codeLine[$i], "boolean") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - char
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'char') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - char
-
+                //local
                 if (strpos($codeLine[$i], "char") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - array
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'Array') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - array
+                //local
 
                 if (strpos($codeLine[$i], "Array") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
                 }
 
-                //global - list
+                //global
 
                 if (strpos($codeLine[$i], "private") !== false && strpos($codeLine[$i], 'list') !== false) {
                     $Wvs += 1;
                 }
 
 
-                //local - list
+                //local
 
                 if (strpos($codeLine[$i], "list") !== false && strpos($codeLine[$i], '=') !== false && strpos($codeLine[$i], '();') !== false) {
                     $local += 1;
@@ -602,6 +626,7 @@
                 //$Nspdtv = $wlv * 0;
                 //$Ncdtv = $wpdtv*0;
                 //$com= $wcdtv*$Ncdtv;
+
                 $tot= ($Wvs * $wgv) + $local;
 
                 $ccp= $tot * (($Nspdtv*$wpdtv) + ($Ncdtv*$wcdtv));
@@ -663,26 +688,172 @@
             $Ncdtp= 0;
             $Cm= 0;
 
+            $preturnt = 0;
+
 
             if (strpos($codeLine[$i], "//") === false && strpos($codeLine[$i], "/*") === false
                 && strpos($codeLine[$i], "#") === false) {
 
-                //$rules->findRecursiveMethods($codeLine[$i]);
-                // $rules->displayArr();
-                //$Wmrt = $wprt*$rules->getRecursiveCallCount();
-
-                //$Npdtp= $wcrt*$rules->findARegularMethodCall($codeLine[$i]);
-
-                $Wmrt = $wprt * 0;
-                $Npdtp = $wcrt * 0;
-                $Ncdtp = $wmvrt*0;
 
 
-                $Cm= $Wmrt + $Npdtp + $Ncdtp ;
+
+                //methods - npdtp
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], "int") !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], "int") !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'long') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false &&  strpos($codeLine[$i], 'long') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'double') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'double') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'float') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'float') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'boolean') !== false  &&  strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'boolean') !== false  && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'char') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Npdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'char') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                //methods - ncdtp
+                if (strpos($codeLine[$i], 'void') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Ncdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'void') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Ncdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'Array') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Ncdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'Array') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Ncdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'list') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Ncdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'list') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Ncdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'interface') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Ncdtp += 1;
+                }
+
+                if (strpos($codeLine[$i], 'interface') !== false && strpos($codeLine[$i], '()') !== false) {
+                    $Ncdtp -= 1;
+                }
+
+                //ch
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'aint') !== false || strpos($codeLine[$i], 'bint') !== false || strpos($codeLine[$i], 'cint') !== false || strpos($codeLine[$i], 'dint') !== false || strpos($codeLine[$i], 'eint') !== false || strpos($codeLine[$i], 'fint') !== false || strpos($codeLine[$i], 'gint') !== false || strpos($codeLine[$i], 'hint') !== false || strpos($codeLine[$i], 'iint') !== false || strpos($codeLine[$i], 'jint') !== false || strpos($codeLine[$i], 'kint') !== false || strpos($codeLine[$i], 'lint') !== false || strpos($codeLine[$i], 'mint') !== false || strpos($codeLine[$i], 'nint') !== false || strpos($codeLine[$i], 'oint') !== false || strpos($codeLine[$i], 'pint') !== false || strpos($codeLine[$i], 'qint') !== false || strpos($codeLine[$i], 'rint') !== false || strpos($codeLine[$i], 'sint') !== false || strpos($codeLine[$i], 'tint') !== false || strpos($codeLine[$i], 'uint') !== false || strpos($codeLine[$i], 'binv') !== false || strpos($codeLine[$i], 'xint') !== false || strpos($codeLine[$i], 'yint') !== false || strpos($codeLine[$i], 'zint') !== false) {
+                    $Npdtp -= 1;
+                }
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'aint') !== false || strpos($codeLine[$i], 'bint') !== false || strpos($codeLine[$i], 'cint') !== false || strpos($codeLine[$i], 'dint') !== false || strpos($codeLine[$i], 'eint') !== false || strpos($codeLine[$i], 'fint') !== false || strpos($codeLine[$i], 'gint') !== false || strpos($codeLine[$i], 'hint') !== false || strpos($codeLine[$i], 'iint') !== false || strpos($codeLine[$i], 'jint') !== false || strpos($codeLine[$i], 'kint') !== false || strpos($codeLine[$i], 'lint') !== false || strpos($codeLine[$i], 'mint') !== false || strpos($codeLine[$i], 'nint') !== false || strpos($codeLine[$i], 'oint') !== false || strpos($codeLine[$i], 'pint') !== false || strpos($codeLine[$i], 'qint') !== false || strpos($codeLine[$i], 'rint') !== false || strpos($codeLine[$i], 'sint') !== false || strpos($codeLine[$i], 'tint') !== false || strpos($codeLine[$i], 'uint') !== false || strpos($codeLine[$i], 'binv') !== false || strpos($codeLine[$i], 'xint') !== false || strpos($codeLine[$i], 'yint') !== false || strpos($codeLine[$i], 'zint') !== false) {
+                    $preturnt -= 1;
+                }
+
+                //ch
+
+
+
+                //wmrt - com
+                if (strpos($codeLine[$i], 'String') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Wmrt += 1;
+                }
+
+
+                if (strpos($codeLine[$i], 'Array') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Wmrt += 1;
+                }
+
+
+                if (strpos($codeLine[$i], 'interface') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Wmrt += 1;
+                }
+
+                if (strpos($codeLine[$i], 'list') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $Wmrt += 1;
+                }
+
+                //wmrt - prem
+
+                if (strpos($codeLine[$i], 'public') !== false && strpos($codeLine[$i], 'int') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+                if (strpos($codeLine[$i], 'long') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+
+                if (strpos($codeLine[$i], 'double') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+
+                if (strpos($codeLine[$i], 'float') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+                if (strpos($codeLine[$i], 'boolean') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+                if (strpos($codeLine[$i], 'char') !== false && strpos($codeLine[$i], '(') !== false && strpos($codeLine[$i], ')') !== false) {
+                    $preturnt += 1;
+                }
+
+
+
+
+                $tot = ($Wmrt * $wcrt) + ($preturnt * $wprt);
+
+
+
+
+                $Cm = $tot + ( $Npdtp * $wpdtp) + ($Ncdtp* $wcdtp);
+
                 echo "<tr>
                             <td>". ($i+1) ."</td>
                             <td><pre>".$codeLine[$i]."</pre></td>
-                            <td>". ($Wmrt) ."</td>
+                            <td>". ($tot) ."</td>
                             <td>". ($Npdtp) ."</td>
                             <td>". ($Ncdtp) ."</td>
                             
