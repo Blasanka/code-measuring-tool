@@ -70,7 +70,7 @@
 
 									// $zip = new ZipArchive();
 									// $x = $zip->open($targetzip);
-									$zip = zip_open($targetzip);
+									$zip = zip_open($source);
 									if (is_resource($zip)) {
 										while ($zip_entry = zip_read($zip)) {
 
