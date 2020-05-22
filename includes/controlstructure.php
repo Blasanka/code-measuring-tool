@@ -19,6 +19,10 @@
                 $file = "configcontrol.xml";
                 $xml= simplexml_load_file($file);
 
+                $totalFactorsFile = "total_factors.xml";
+                $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+                $totalFactorsXml->ccs = 0;
+
                  
                 $ie = $xml->ie;
                 $fw = $xml->fw;
@@ -72,6 +76,7 @@
                     }
 
                     $ccs = ($wts * $nc);
+                    $totalFactorsXml->ccs = $ccs;
                    
 
                     echo "<tr>

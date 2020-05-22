@@ -161,6 +161,14 @@
         </table>
 
         <!--controlstructure-->
+        <div class="row">
+            <div class="col-11">
+                <button onClick="window.history.go(-1); return false;" class="btn btn-primary">Go Back</button>
+            </div>
+            <div class="col-1">
+                <input type="submit" value="Save" name="submit" class="btn btn-success" />
+            </div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -222,6 +230,7 @@
                             <td>Each ‘case’ statement in a ‘switch-case’ control structure </td>
                             <td><input type='text' value=". $ca ." name='ca' /></td>
                         </tr>";
+                 
                 ?>
             </tbody>
         </table>
