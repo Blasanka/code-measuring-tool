@@ -20,38 +20,43 @@
                 $file = "config.xml";
                 $xml= simplexml_load_file($file);
                 
-                $wr = $xml->wr; 
-                $wmcms = $xml->wmcms;
-                $wmcmd = $xml->wmcmd;
-                $wmcrms = $xml->wmcrms;
-                $wmcrmd = $xml->wmcrmd;
-                $wrmcrms = $xml->wrmcrms;
-                $wrmcrmd = $xml->wrmcrmd;
-                $ccp = 0;
-                
+                $totalFactorsFile = "total_factors.xml";
+                $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+
+                $cs = 0;
+                $cv= 0;
+                $cm = 0;
+                $ci= 0;
+                $ccs = 0;
+                $ccp = $totalFactorsXml->ccp;
+                $tcps = $cs + $cv + $cm + $ci + $ccp + $ccs;
+
                 for ($i=0; $i<count($codeLine); $i++) {
                     
-                    $nr = $wr*0;
-                    $nmcms= $wmcms*$i; // $i to check basic structure working, need to change when real calc.
-                    $nmcmd= $wmcmd*0;
-                    $nmcrms= $wmcrms*0;
-                    $nmcrmd= $wmcrmd*0;
-                    $nrmcrms= $wrmcrms*0;
-                    $nrmcrmd= $wrmcrmd*0;
-                    $ccp= $nr + $nmcms + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd + $nrmcms 
-                            + $nrmcmd + $nmrgvs + $nmrgvd + $nrmrgvs + $nrmrgvd;
                     echo "<tr>
                         <td>". ($i+1) ."</td>
                         <td><pre>".$codeLine[$i]."</pre></td>
-                        <td>". ($nr) ."</td>
-                        <td>". ($nmcms) ."</td>
-                        <td>". ($nmcmd) ."</td>
-                        <td>". ($nmcrms) ."</td>
-                        <td>". ($nmcrmd) ."</td>
-                        <td>". ($nrmcrms) ."</td>
-                        <td>". ($nrmcrmd) ."</td>
+                        <td>". ($cs) ."</td>
+                        <td>". ($cv) ."</td>
+                        <td>". ($cm) ."</td>
+                        <td>". ($ci) ."</td>
+                        <td>". ($ccp) ."</td>
+                        <td>". ($ccs) ."</td>
+                        <td>". ($tcps) ."</td>
                     </tr>";
                 }
+                
+                echo "<tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Total</b></td>
+                    <td><b>". ($tcps) ."</b></td>
+                </tr>";
             
             ?>
         </tbody>

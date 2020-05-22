@@ -7,20 +7,29 @@
 				</div>
 				<div class="row"></div>
 				<div class="row">
-					<form action="index.php" method="post" enctype="multipart/form-data">
-						<div class="form-group">
+					<div class="col-md-6">
+						<form action="index.php" method="post" enctype="multipart/form-data">
 							<div class="row">
-								<div class="col-5"><label for="file">Pick your program:</label></div>
-								<div class="col-6">
-									<input type="file" class="form-control-file" id="file" name="file" onchange="form.submit()" />
-								</div>
+								<label for="file">Pick your program file:</label>
+								<input type="file" class="form-control-file" id="file" 
+									name="file" onchange="form.submit()" accept=".java,.cpp" />
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
+					<div class="col-md-6">
+						<form action="index.php" method="post" enctype="multipart/form-data">
+							<div class="row">
+								<label for="file">Pick a zip file:</label>
+								<input type="file" class="form-control-file" id="zip_file" 
+									name="zip_file" onchange="form.submit()" accept=".zip,.rar,.7zip" />
+							</div>
+						</form>
+					</div>
 				</div>
 				<div class="row row-margin">
 					<textarea rows="14" class="form-control" id="codeArea">
 						<?php
+							// if a file selected go with this
 							if (isset($_FILES['file'])) {
 								$counter = 0;
 								$fp = fopen($_FILES['file']['tmp_name'], 'rb');
@@ -29,6 +38,56 @@
 									$codeLine[$counter] = $line;
 									echo "$line";
 									$counter++;
+								}
+							} // if a zip selected go with this
+							else if (isset($_FILES['zip_file'])) {
+								if($_FILES["zip_file"]["name"]) {
+									$filename = $_FILES["zip_file"]["name"];
+									$source = $_FILES["zip_file"]["tmp_name"];
+									$type = $_FILES["zip_file"]["type"];
+
+									$name = explode(".", $filename);
+									$accepted_types = array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
+									foreach($accepted_types as $mime_type) {
+										if($mime_type == $type) {
+											$okay = true;
+											break;
+										} 
+									}
+
+									$continue = strtolower($name[1]) == 'zip' ? true : false;
+									if(!$continue) {
+										$message = "The file you are trying to upload is not a .zip file. Please try again.";
+									}
+
+									/* PHP current path */
+									$path = dirname(__FILE__).'/';
+									$filenoext = basename ($filename, '.zip');
+									$filenoext = basename ($filenoext, '.ZIP');
+
+									$targetdir = $path . $filenoext;
+									$targetzip = $path . $filename;
+
+									// $zip = new ZipArchive();
+									// $x = $zip->open($targetzip);
+									$zip = zip_open($targetzip);
+									if (is_resource($zip)) {
+										while ($zip_entry = zip_read($zip)) {
+
+											if (zip_entry_open($zip, $zip_entry))
+											{
+												$contents = zip_entry_read($zip_entry);
+												global $codeLine;
+												$codeLine = explode("\n", $contents);
+												echo $contents;
+												zip_entry_close($zip_entry);
+											}
+										}
+
+										zip_close($zip);
+									} else {
+										echo "Cannot read the zip";
+									}
 								}
 							} else {
 								echo "Your program code snippet will be displayed here...";
@@ -70,5 +129,5 @@
 					document.getElementById("output-table").style.display = "block";
 				}
 			</script>	
-		</div>
+		</div>		
 <?php include("includes/footer.php"); ?>
