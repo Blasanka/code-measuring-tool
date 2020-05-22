@@ -78,7 +78,7 @@
                     
                         // $rules->displayArr();
                         $nr = $rules->findRecursiveMethods($codeLine[$i]);
-                        $nmcms= $rules->findARegularMethodCall($codeLine[$i]);//$wmcms*
+                        $nmcms= $rules->findARegularMethodCall($codeLine[$i]);
                         $nmcmd = $wmcmd*0;
                         $nmcrms= $wmcrms*0;
                         $nmcrmd= $wmcrmd*0;
