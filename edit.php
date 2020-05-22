@@ -161,6 +161,15 @@
         </table>
 
         <!--controlstructure-->
+        <div class="row">
+            <div class="col-11">
+                <button onClick="window.history.go(-1); return false;" class="btn btn-primary">Go Back</button>
+            </div>
+            <div class="col-1">
+                <input type="submit" value="Save" name="submit" class="btn btn-success" />
+            </div>
+        </div>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -170,66 +179,65 @@
             </thead>
             <tbody>
                 <?php
-                        // $wr = 2;
-                        // $wmcmd= 3;
-                        // $wmcrms= 3;
-                        // $wmcrmd= 4;
+                        // $ie = 2;
+                        // $fw= 3;
+                        // $sw= 2;
+                        // $ca 1;
                         
 
                         $file = "configcontrol.xml";
                         $xml= simplexml_load_file($file);
                         if(isset($_POST)) {
                             // unset($xml->config);
-                            if(isset($_POST['wr'])) {
-                                // setcookie("wr", $_POST['wr']);
-                                $xml->wr = $_POST['wr'];
+                            if(isset($_POST['ie'])) {
+                                // setcookie("ie", $_POST['ie']);
+                                $xml->ie = $_POST['ie'];
                             } 
-                            if(isset($_POST['wmcms'])) {
-                                // setcookie("wmcms", $_POST['wmcms']);
-                                $xml->wmcms = $_POST['wmcms'];
+                            if(isset($_POST['fw'])) {
+                                // setcookie("fw", $_POST['fw']);
+                                $xml->fw = $_POST['fw'];
                             } 
-                            if(isset($_POST['wmcmd'])) {
-                                // setcookie("wmcmd", $_POST['wmcmd']);
-                                $xml->wmcmd = $_POST['wmcmd'];
+                            if(isset($_POST['sw'])) {
+                                // setcookie("sw", $_POST['sw']);
+                                $xml->sw = $_POST['sw'];
                             } 
-                            if(isset($_POST['wmcrms'])) {
-                                // setcookie("wmcrms", $_POST['wmcrms']);
-                                $xml->wmcrms = $_POST['wmcrms'];
+                            if(isset($_POST['ca'])) {
+                                // setcookie("ca", $_POST['ca']);
+                                $xml->ca = $_POST['ca'];
                             } 
                             
                             file_put_contents($file, $xml->asXML());
                         }
 
-                        $wr = $xml->wr; 
-                        $wmcms = $xml->wmcms;
-                        $wmcmd = $xml->wmcmd;
-                        $wmcrms = $xml->wmcrms;
+                        $ie = $xml->ie; 
+                        $fw = $xml->fw;
+                        $sw = $xml->sw;
+                        $ca = $xml->ca;
                        
 
                         echo "<tr>
-                            <td>A recursivecall (Refer to Ex1in fig. 1)</td>
-                            <td><input type='text' value=". $wr ."  name='wr' /></td>
+                            <td> A conditional control structure such as an ‘if’ or ‘else-if’ condition </td>
+                            <td><input type='text' value=". $ie ." name='ie' /></td>
                         </tr>
                         <tr>
-                            <td>A regular method calling another regular method in the same file</td>
-                            <td><input type='text' value=". $wmcms ."  name='wmcms' /></td>
+                            <td>An iterative control structure such as a ‘for’, ‘while’, or ‘do-while’ loop</td>
+                            <td><input type='text' value=". $fw ."  name='fw' /></td>
                         </tr>
                         <tr>
-                            <td>A regular method calling another regular method in a different file</td>
-                            <td><input type='text' value=". $wmcmd ."  name='wmcmd' /></td>
+                            <td>The ‘switch’ statement in a ‘switch-case’ control structure</td>
+                            <td><input type='text' value=". $sw ."  name='sw' /></td>
                         </tr>
                         <tr>
-                            <td>A regular method calling another regular method in a different file</td>
-                            <td><input type='text' value=". $wmcrms ." name='wmcrms' /></td>
+                            <td>Each ‘case’ statement in a ‘switch-case’ control structure </td>
+                            <td><input type='text' value=". $ca ." name='ca' /></td>
                         </tr>";
+                 
                 ?>
             </tbody>
         </table>
 
     </form>
 </div>
-
-
 <!--- size weight code--->
 
 
