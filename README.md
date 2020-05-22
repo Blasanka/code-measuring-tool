@@ -7,6 +7,8 @@
 
 - Azure hosted at: https://complexity-tool.azurewebsites.net
 - Freely hosted using a cpanel: https://measurecode.000webhostapp.com/
+- Github repository: https://github.com/blasanka/code-measuring-tool/
+- This readme available as markdown: https://github.com/Blasanka/code-measuring-tool/blob/master/README.md
 
 ### About the project:
 
@@ -33,6 +35,7 @@ As an added feature user can generate a pdf of the code measured factor table.
 - For the function coupling, used regex to find and match spec.
 - Used simple PDF generate using http://www.fpdf.org/?lang=en
 - Weights are stored an read using XML files.
+- Integration, source code and sharing handled using git with github.
 
 ### Sidenotes
 
