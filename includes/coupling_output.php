@@ -35,6 +35,10 @@
 
                 $file = "config.xml";
                 $xml= simplexml_load_file($file);
+                // write to a xml file to display in all factors table
+                $totalFactorsFile = "total_factors.xml";
+                $totalFactorsXml= simplexml_load_file($totalFactorsFile);
+                $totalFactorsXml->ccp = 0;
 
                 $wr = $xml->wr; 
                 $wmcms = $xml->wmcms;
@@ -82,20 +86,13 @@
                         $nrmcrmd= $wrmcrmd*0;
                         $nrmcms= $wrmcms*0;
                         $nrmcmd= $wrmcmd*0;
-                        $nmrgvs= $rules->globalVariableCount($line);
+                        $nmrgvs= $rules->globalVariableCount($codeLine[$i]);
                         $nmrgvd= $wmrgvd*0;
                         $nrmrgvs= $wrmrgvs*0;
                         $nrmrgvd= $wrmrgvd*0;
-                        $ccp= ($wr*$nr) + ($wmcms*$nmcms) + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd 
+                        $ccp = ($wr*$nr) + ($wmcms*$nmcms) + $nmcmd + $nmcrms + $nmcrmd + $nrmcrms + $nrmcrmd 
                             + $nrmcms + $nrmcmd + ($wmrgvs * $nmrgvs) + $nmrgvd + $nrmrgvs + $nrmrgvd;
-                        
-                        if(isset($ccp)) {
-                            // write to a xml file to display in all factors table
-                            $totalFactorsFile = "total_factors.xml";
-                            $totalFactorsXml= simplexml_load_file($totalFactorsFile);
-                            $totalFactorsXml->coupling->ccs = $ccp;
-                            file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
-                        }
+                        $totalFactorsXml->ccp += $ccp;
 
                         echo "<tr>
                             <td>". ($i+1) ."</td>
@@ -117,6 +114,7 @@
                         </tr>";
                     }
                 }
+                file_put_contents($totalFactorsFile, $totalFactorsXml->asXML());
             ?>
         </tbody>
     </table>

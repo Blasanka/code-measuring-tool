@@ -98,8 +98,7 @@ class CouplingRules {
 
     function globalVariableCount($line) {
         $appearedCount = 0;
-        if (strpos('{', $line) === false && strpos('}', $line) === false 
-            && preg_match("/;$/", $line, $matches) === 1) {
+        if (preg_match("/([private|public|protected|default]?)\w+;$/", $line, $matches) === 1) {
             array_push($this->globalVariables, $matches[count($matches)-1]);
             $appearedCount += 1;
         }

@@ -23,23 +23,16 @@
                 $totalFactorsFile = "total_factors.xml";
                 $totalFactorsXml= simplexml_load_file($totalFactorsFile);
 
-                $wr = $xml->wr; 
-                $wmcms = $xml->wmcms;
-                $wmcmd = $xml->wmcmd;
-                $wmcrms = $xml->wmcrms;
-                $wmcrmd = $xml->wmcrmd;
-                $wrmcrms = $xml->wrmcrms;
-                $ccp = 0;
-                
+                $cs = 0;
+                $cv= 0;
+                $cm = 0;
+                $ci= 0;
+                $ccs = 0;
+                $ccp = $totalFactorsXml->ccp;
+                $tcps = $cs + $cv + $cm + $ci + $ccp + $ccs;
+
                 for ($i=0; $i<count($codeLine); $i++) {
                     
-                    $cs = $wr*0;
-                    $cv= $wmcms*$i; // $i to check basic structure working, need to change when real calc.
-                    $cm = $wmcmd*0;
-                    $ci= $wmcrms*0;
-                    $ccp = $wmcrmd*0;
-                    $ccs = $totalFactorsXml->coupling->ccs;
-                    $tcps = $cs + $cv + $cm + $ci + $ccp + $ccs;
                     echo "<tr>
                         <td>". ($i+1) ."</td>
                         <td><pre>".$codeLine[$i]."</pre></td>
@@ -52,6 +45,18 @@
                         <td>". ($tcps) ."</td>
                     </tr>";
                 }
+                
+                echo "<tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Total</b></td>
+                    <td><b>". ($tcps) ."</b></td>
+                </tr>";
             
             ?>
         </tbody>

@@ -18,13 +18,19 @@ function LoadData($file)
 function BasicTable($header, $data)
 {
     // Header
-    foreach($header as $col)
-        $this->Cell(120, 8, $col, 1, 0, 'C');
+    // foreach($header as $col)
+    $this->Cell(120, 8, $header[0], 1, 0, 'C');
+    $this->Cell(10, 8, $header[1], 1, 0, 'C');
+    $this->Cell(10, 8, $header[2], 1, 0, 'C');
+    $this->Cell(10, 8, $header[3], 1, 0, 'C');
     $this->Ln();
     // Data
     foreach($data as $row)
     {
         $this->Cell(120, 6, $row, 1);
+        $this->Cell(10, 6, 0, 1);
+        $this->Cell(10, 6, 0, 1);
+        $this->Cell(10, 6, 0, 1);
         // foreach($row as $col)
         //     $this->Cell(40,6,$col,1);
         $this->Ln();
@@ -89,11 +95,13 @@ function FancyTable($header, $data)
 
 $pdf = new PDF();
 // Column headings
-$header = array('Program statement');
+$header = array('Program statement', 'Nr', 'Nmcms', 'Nmcmd');
 // Data loading
 // $data = $pdf->LoadData('countries.txt');
 $pdf->SetFont('Arial','', 8);
 $pdf->AddPage();
+$pdf->Cell(40, 8, "Displaying the complexity of a program due to all the factors");
+$pdf->Ln();
 if (isset($_POST["codeLine"])) {
     $pdf->BasicTable($header, $_POST["codeLine"]);
 }
